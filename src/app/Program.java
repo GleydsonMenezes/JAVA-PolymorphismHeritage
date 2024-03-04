@@ -11,7 +11,10 @@ import java.util.Scanner;
 import entities.Circle;
 import entities.Employee;
 import entities.ImportedProduct;
+import entities.LegalPerson;
+import entities.NaturalPerson;
 import entities.OutsourcedEmployee;
+import entities.Person;
 import entities.Product;
 import entities.Rectangle;
 import entities.Shape;
@@ -142,6 +145,47 @@ public class Program {
 			for (Shape shapes : shape) {
 					System.out.printf(String.format("\n%.2f", shapes.area()));
 			}
+			
+			break;
+		case 4:
+			List<Person> person = new ArrayList<>();
+			System.out.println("Enter the number of tax payers: ");
+			n = sc.nextInt();
+			for (int i = 1; i <= n; i++) {
+				System.out.println("Tax payer #" + i + " data: ");
+				System.out.print("Individual or company (i/c)? ");
+				char ch = sc.next().charAt(0);
+				sc.nextLine();
+				if (ch == 'i') {
+					System.out.print("Name: ");
+					String name = sc.nextLine();
+					System.out.print("Anual income: ");
+					double anualIncome = sc.nextDouble();
+					System.out.println("Health expenditures: ");
+					double healthCost = sc.nextDouble();
+					person.add(new NaturalPerson(name, anualIncome, healthCost));
+				}
+				if (ch == 'c') {
+					System.out.print("Name: ");
+					String name = sc.nextLine();
+					System.out.print("Anual income: ");
+					double anualIncome = sc.nextDouble();
+					System.out.println("Number of employees: ");
+					int emp = sc.nextInt();
+					sc.nextLine();
+					person.add(new LegalPerson(name, anualIncome, emp));
+				}
+			}
+			
+			System.out.println("TAXES PAID:");
+			double sum = 0;
+			for (Person persons : person) {
+				sum += persons.taxCalc();
+				System.out.println(persons.getName() + ": $" + persons.taxCalc());
+			}
+			
+			System.out.println("TOTAL TAXES: $" + sum);
+			
 			
 			break;
 		}
